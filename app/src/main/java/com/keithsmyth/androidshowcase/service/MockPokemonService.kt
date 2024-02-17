@@ -2,8 +2,8 @@ package com.keithsmyth.androidshowcase.service
 
 import android.content.Context
 import com.keithsmyth.androidshowcase.R
+import com.keithsmyth.androidshowcase.service.model.ApiResponse
 import com.keithsmyth.androidshowcase.service.model.PokemonListServiceModel
-import com.keithsmyth.androidshowcase.service.model.Response
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.delay
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -19,10 +19,10 @@ class MockPokemonService @Inject constructor(
 ) {
     // Moshi implementation: appContext.resources.openRawResource(R.raw.pokemon_list).source().buffer().use { moshiAdapter.fromJson(it) }
 
-    suspend fun list(): Response<PokemonListServiceModel> {
+    suspend fun list(): ApiResponse<PokemonListServiceModel> {
         delay(500)
         return appContext.resources.openRawResource(R.raw.pokemon_list).use { inputStream ->
-            Json.decodeFromStream<Response<PokemonListServiceModel>>(inputStream)
+            Json.decodeFromStream<ApiResponse<PokemonListServiceModel>>(inputStream)
         }
     }
 }

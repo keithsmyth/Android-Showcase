@@ -4,7 +4,7 @@ import com.keithsmyth.androidshowcase.Dispatchers
 import com.keithsmyth.androidshowcase.domain.model.ListItemDomainModel
 import com.keithsmyth.androidshowcase.service.MockPokemonService
 import com.keithsmyth.androidshowcase.service.model.PokemonListServiceModel
-import com.keithsmyth.androidshowcase.service.model.Response
+import com.keithsmyth.androidshowcase.service.model.ApiResponse
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestCoroutineScheduler
@@ -113,7 +113,7 @@ class ListDomainTest {
 
     private fun mockPokemonService(results: List<PokemonListServiceModel>): MockPokemonService {
         return mock<MockPokemonService> {
-            onBlocking { list() } doReturn Response(
+            onBlocking { list() } doReturn ApiResponse(
                 count = results.size,
                 next = null,
                 previous = null,
