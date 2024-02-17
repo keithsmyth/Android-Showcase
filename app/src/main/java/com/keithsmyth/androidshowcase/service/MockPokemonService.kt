@@ -16,13 +16,14 @@ import javax.inject.Singleton
 @Singleton
 class MockPokemonService @Inject constructor(
     @ApplicationContext private val appContext: Context,
+    private val json: Json,
 ) {
     // Moshi implementation: appContext.resources.openRawResource(R.raw.pokemon_list).source().buffer().use { moshiAdapter.fromJson(it) }
 
     suspend fun list(): ApiResponse<PokemonListServiceModel> {
         delay(500)
         return appContext.resources.openRawResource(R.raw.pokemon_list).use { inputStream ->
-            Json.decodeFromStream<ApiResponse<PokemonListServiceModel>>(inputStream)
+            json.decodeFromStream<ApiResponse<PokemonListServiceModel>>(inputStream)
         }
     }
 }
