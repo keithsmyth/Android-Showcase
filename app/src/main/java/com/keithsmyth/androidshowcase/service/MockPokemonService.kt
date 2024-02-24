@@ -4,6 +4,7 @@ import android.content.Context
 import com.keithsmyth.androidshowcase.R
 import com.keithsmyth.androidshowcase.service.model.ApiResponse
 import com.keithsmyth.androidshowcase.service.model.PokemonListServiceModel
+import com.keithsmyth.androidshowcase.service.model.PokemonServiceModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.delay
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -24,6 +25,13 @@ class MockPokemonService @Inject constructor(
         delay(500)
         return appContext.resources.openRawResource(R.raw.pokemon_list).use { inputStream ->
             json.decodeFromStream<ApiResponse<PokemonListServiceModel>>(inputStream)
+        }
+    }
+
+    suspend fun detail(id: Int): PokemonServiceModel {
+        delay(500)
+        return appContext.resources.openRawResource(R.raw.pokemon_bulbasaur).use { inputStream ->
+            json.decodeFromStream<PokemonServiceModel>(inputStream)
         }
     }
 }
