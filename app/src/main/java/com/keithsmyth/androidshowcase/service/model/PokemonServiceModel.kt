@@ -10,7 +10,7 @@ data class PokemonServiceModel(
     val cries: Cries,
     val forms: List<ApiResource>,
     @SerialName("game_indices") val gameIndices: List<GameIndex>,
-    val height: Int,
+    val height: Int, // decimetres
     // TODO: held_items val heldItems: List<ApiResource>
     val id: Int,
     val moves: List<Move>,
@@ -20,7 +20,7 @@ data class PokemonServiceModel(
     val sprites: Sprites,
     val stats: List<Stats>,
     val types: List<Types>,
-    val weight: Int,
+    val weight: Int, // hectograms
 ) {
     @Serializable
     data class Ability(

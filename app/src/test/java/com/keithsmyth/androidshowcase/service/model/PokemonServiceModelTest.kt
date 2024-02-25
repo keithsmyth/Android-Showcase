@@ -7,7 +7,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Test
 
 @OptIn(ExperimentalSerializationApi::class)
-class DetailServiceModelTest {
+class PokemonServiceModelTest {
 
     private val expected = PokemonServiceModel(
         abilities = listOf(
