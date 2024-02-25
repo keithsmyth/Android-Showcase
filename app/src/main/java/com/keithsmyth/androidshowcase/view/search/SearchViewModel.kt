@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.keithsmyth.androidshowcase.domain.SearchDomain
 import com.keithsmyth.androidshowcase.domain.model.ListItemDomainModel
 import com.keithsmyth.androidshowcase.domain.model.SearchDomainModel
+import com.keithsmyth.androidshowcase.view.MainNavigation
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -15,6 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SearchViewModel @Inject constructor(
+    private val mainNavigation: MainNavigation,
     private val searchDomain: SearchDomain,
 ) : ViewModel() {
 
@@ -64,8 +66,6 @@ class SearchViewModel @Inject constructor(
     )
 
     private fun List<ListItemDomainModel>.mapToResultBindingItems() = map { item ->
-        SearchResultBindingItem(item, ::onItemClick)
+        SearchResultBindingItem(item, mainNavigation::navigateToDetail)
     }
-
-    private fun onItemClick(id: Int) {}
 }
