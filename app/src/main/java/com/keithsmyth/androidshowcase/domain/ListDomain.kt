@@ -16,8 +16,8 @@ class ListDomain @Inject constructor(
             val response = mockPokemonService.list()
             response.results.map { serviceModel ->
                 ListItemDomainModel(
-                    id = serviceModel.url.split("/").dropLastWhile { it.isEmpty() }.last().toInt(),
-                    name = serviceModel.name.replaceFirstChar {it.titlecase() },
+                    id = DomainFormatUtils.idFromApiResourceUrl(serviceModel.url),
+                    name = DomainFormatUtils.capitaliseName(serviceModel.name),
                 )
             }
         }
