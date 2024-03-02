@@ -1,0 +1,26 @@
+package com.keithsmyth.androidshowcase.domain.model
+
+data class PokemonDomainModel(
+    val id: Int,
+    val name: String,
+    val cryUrl: String,
+    val height: String,
+    val weight: String,
+    val speciesId: Int,
+    val speciesName: String,
+    val spriteFrontUrl: String,
+    val spriteBackUrl: String,
+    val shinySpriteFrontUrl: String,
+    val shinySpriteBackUrl: String,
+    val statBaseHp: Int,
+    val statBaseAttack: Int,
+    val statBaseDefence: Int,
+    val statBaseSpecialAttack: Int,
+    val statBaseSpecialDefence: Int,
+    val statBaseSpeed: Int,
+    val totalStat: Int,
+    val typePrimaryId: Int,
+    val typePrimaryName: String,
+    val typeSecondaryId: Int?,
+    val typeSecondaryName: String?,
+)
