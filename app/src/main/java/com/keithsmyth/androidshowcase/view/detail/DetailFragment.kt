@@ -9,6 +9,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.keithsmyth.androidshowcase.R
 import com.keithsmyth.androidshowcase.databinding.FragmentDetailBinding
+import com.keithsmyth.androidshowcase.domain.model.PokemonDomainModel
+import com.squareup.picasso.Picasso
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
@@ -22,8 +24,19 @@ class DetailFragment : Fragment(R.layout.fragment_detail) {
 
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-
+                viewModel.state.collect { state ->
+                    state.detail?.let { binding.bind(it) }
+                }
             }
         }
+    }
+
+    private fun FragmentDetailBinding.bind(detail: PokemonDomainModel) {
+        nameTextView.text = detail.name
+        numberTextView.text = detail.speciesId.toString()
+        Picasso.get().load(detail.spriteFrontUrl).into(imageView)
+        typeChip.text = detail.typePrimaryName
+        hpProgressIndicator.max = detail.statBaseHp * 2
+        hpProgressIndicator.progress = detail.statBaseHp
     }
 }
