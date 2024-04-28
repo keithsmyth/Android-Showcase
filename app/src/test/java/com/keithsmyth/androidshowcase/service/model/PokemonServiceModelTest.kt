@@ -1,12 +1,9 @@
 package com.keithsmyth.androidshowcase.service.model
 
-import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.decodeFromStream
+import com.keithsmyth.androidshowcase.TestResourceLoader.loadFile
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
-@OptIn(ExperimentalSerializationApi::class)
 class PokemonServiceModelTest {
 
     private val expected = PokemonServiceModel(
@@ -97,11 +94,6 @@ class PokemonServiceModelTest {
         weight = 69,
     )
 
-    private val json = Json {
-        prettyPrint = true
-        ignoreUnknownKeys = true
-    }
-
     @Test
     fun `given trimmed detail json, when decoded, then return correct model`() {
         val model: PokemonServiceModel = loadFile("pokemon_bulbasaur.json")
@@ -120,11 +112,5 @@ class PokemonServiceModelTest {
         assertEquals(expected.stats, model.stats)
         assertEquals(expected.types, model.types)
         assertEquals(expected.weight, model.weight)
-    }
-
-    private inline fun <reified T> loadFile(filename: String): T {
-        javaClass.classLoader?.getResourceAsStream(filename)?.use { inputStream ->
-            return json.decodeFromStream(inputStream)
-        } ?: throw RuntimeException("test file read failed for '$filename'")
     }
 }
