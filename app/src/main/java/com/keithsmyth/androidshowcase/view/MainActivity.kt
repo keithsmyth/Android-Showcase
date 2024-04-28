@@ -1,9 +1,9 @@
-package com.keithsmyth.androidshowcase
+package com.keithsmyth.androidshowcase.view
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.fragment.NavHostFragment
-import com.keithsmyth.androidshowcase.view.MainNavigation
+import com.keithsmyth.androidshowcase.R
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
