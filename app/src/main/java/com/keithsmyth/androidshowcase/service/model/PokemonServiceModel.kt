@@ -8,7 +8,7 @@ data class PokemonServiceModel(
     val abilities: List<Ability>,
     @SerialName("base_experience") val baseExperience: Int,
     val cries: Cries,
-    val forms: List<ApiResource>,
+    val forms: List<NamedApiResource>,
     @SerialName("game_indices") val gameIndices: List<GameIndex>,
     val height: Int, // decimetres
     // TODO: held_items val heldItems: List<ApiResource>
@@ -16,7 +16,7 @@ data class PokemonServiceModel(
     val moves: List<Move>,
     val name: String,
     val order: Int,
-    val species: ApiResource,
+    val species: NamedApiResource,
     val sprites: Sprites,
     val stats: List<Stats>,
     val types: List<Types>,
@@ -24,7 +24,7 @@ data class PokemonServiceModel(
 ) {
     @Serializable
     data class Ability(
-        val ability: ApiResource,
+        val ability: NamedApiResource,
         @SerialName("is_hidden") val isHidden: Boolean,
         val slot: Int,
     )
@@ -38,20 +38,20 @@ data class PokemonServiceModel(
     @Serializable
     data class GameIndex(
         @SerialName("game_index") val gameIndex: Int,
-        val version: ApiResource,
+        val version: NamedApiResource,
     )
 
     @Serializable
     data class Move(
-        val move: ApiResource,
+        val move: NamedApiResource,
         @SerialName("version_group_details") val versionGroupDetails: List<MoveVersionGroup>,
     )
 
     @Serializable
     data class MoveVersionGroup(
         @SerialName("level_learned_at") val levelLearnedAt: Int,
-        @SerialName("move_learn_method") val moveLearnMethod: ApiResource,
-        @SerialName("version_group") val versionGroup: ApiResource,
+        @SerialName("move_learn_method") val moveLearnMethod: NamedApiResource,
+        @SerialName("version_group") val versionGroup: NamedApiResource,
     )
 
     @Serializable
@@ -66,12 +66,12 @@ data class PokemonServiceModel(
     data class Stats(
         @SerialName("base_stat") val baseStat: Int,
         val effort: Int,
-        val stat: ApiResource,
+        val stat: NamedApiResource,
     )
 
     @Serializable
     data class Types(
         val slot: Int,
-        val type: ApiResource,
+        val type: NamedApiResource,
     )
 }

@@ -12,12 +12,12 @@ class PokemonServiceModelTest {
     private val expected = PokemonServiceModel(
         abilities = listOf(
             PokemonServiceModel.Ability(
-                ability = ApiResource("overgrow", "https://pokeapi.co/api/v2/ability/65/"),
+                ability = NamedApiResource("overgrow", "https://pokeapi.co/api/v2/ability/65/"),
                 isHidden = false,
                 slot = 1,
             ),
             PokemonServiceModel.Ability(
-                ability = ApiResource("chlorophyll", "https://pokeapi.co/api/v2/ability/34/"),
+                ability = NamedApiResource("chlorophyll", "https://pokeapi.co/api/v2/ability/34/"),
                 isHidden = true,
                 slot = 3,
             ),
@@ -28,44 +28,44 @@ class PokemonServiceModelTest {
             legacy = "https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/legacy/1.ogg",
         ),
         forms = listOf(
-            ApiResource("bulbasaur", "https://pokeapi.co/api/v2/pokemon-form/1/"),
+            NamedApiResource("bulbasaur", "https://pokeapi.co/api/v2/pokemon-form/1/"),
         ),
         gameIndices = listOf(
             PokemonServiceModel.GameIndex(
                 gameIndex = 153,
-                version = ApiResource("red", "https://pokeapi.co/api/v2/version/1/")
+                version = NamedApiResource("red", "https://pokeapi.co/api/v2/version/1/")
             ),
             PokemonServiceModel.GameIndex(
                 gameIndex = 153,
-                version = ApiResource("blue", "https://pokeapi.co/api/v2/version/2/")
+                version = NamedApiResource("blue", "https://pokeapi.co/api/v2/version/2/")
             ),
             PokemonServiceModel.GameIndex(
                 gameIndex = 153,
-                version = ApiResource("yellow", "https://pokeapi.co/api/v2/version/3/")
+                version = NamedApiResource("yellow", "https://pokeapi.co/api/v2/version/3/")
             ),
         ),
         height = 7,
         id = 1,
         moves = listOf(
             PokemonServiceModel.Move(
-              move = ApiResource("razor-wind", "https://pokeapi.co/api/v2/move/13/"),
+              move = NamedApiResource("razor-wind", "https://pokeapi.co/api/v2/move/13/"),
                 versionGroupDetails = listOf(
                     PokemonServiceModel.MoveVersionGroup(
                         levelLearnedAt = 0,
-                        moveLearnMethod = ApiResource("egg", "https://pokeapi.co/api/v2/move-learn-method/2/"),
-                        versionGroup = ApiResource("gold-silver", "https://pokeapi.co/api/v2/version-group/3/"),
+                        moveLearnMethod = NamedApiResource("egg", "https://pokeapi.co/api/v2/move-learn-method/2/"),
+                        versionGroup = NamedApiResource("gold-silver", "https://pokeapi.co/api/v2/version-group/3/"),
                     ),
                     PokemonServiceModel.MoveVersionGroup(
                         levelLearnedAt = 0,
-                        moveLearnMethod = ApiResource("egg", "https://pokeapi.co/api/v2/move-learn-method/2/"),
-                        versionGroup = ApiResource("crystal", "https://pokeapi.co/api/v2/version-group/4/"),
+                        moveLearnMethod = NamedApiResource("egg", "https://pokeapi.co/api/v2/move-learn-method/2/"),
+                        versionGroup = NamedApiResource("crystal", "https://pokeapi.co/api/v2/version-group/4/"),
                     ),
                 ),
             ),
         ),
         name = "bulbasaur",
         order = 1,
-        species = ApiResource("bulbasaur", "https://pokeapi.co/api/v2/pokemon-species/1/"),
+        species = NamedApiResource("bulbasaur", "https://pokeapi.co/api/v2/pokemon-species/1/"),
         sprites = PokemonServiceModel.Sprites(
             backDefault = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/1.png",
             frontDefault = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/1.png",
@@ -76,22 +76,22 @@ class PokemonServiceModelTest {
             PokemonServiceModel.Stats(
                 baseStat = 45,
                 effort = 0,
-                stat = ApiResource("hp", "https://pokeapi.co/api/v2/stat/1/"),
+                stat = NamedApiResource("hp", "https://pokeapi.co/api/v2/stat/1/"),
             ),
             PokemonServiceModel.Stats(
                 baseStat = 49,
                 effort = 0,
-                stat = ApiResource("attack", "https://pokeapi.co/api/v2/stat/2/"),
+                stat = NamedApiResource("attack", "https://pokeapi.co/api/v2/stat/2/"),
             ),
         ),
         types = listOf(
             PokemonServiceModel.Types(
                 slot = 1,
-                type = ApiResource("grass", "https://pokeapi.co/api/v2/type/12/"),
+                type = NamedApiResource("grass", "https://pokeapi.co/api/v2/type/12/"),
             ),
             PokemonServiceModel.Types(
                 slot = 2,
-                type = ApiResource("poison", "https://pokeapi.co/api/v2/type/4/"),
+                type = NamedApiResource("poison", "https://pokeapi.co/api/v2/type/4/"),
             ),
         ),
         weight = 69,

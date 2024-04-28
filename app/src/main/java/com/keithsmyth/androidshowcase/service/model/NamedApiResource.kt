@@ -3,7 +3,7 @@ package com.keithsmyth.androidshowcase.service.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ApiResource(
+data class NamedApiResource(
     val name: String,
     val url: String,
 )

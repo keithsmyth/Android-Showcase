@@ -3,7 +3,7 @@ package com.keithsmyth.androidshowcase.domain
 import com.keithsmyth.androidshowcase.Dispatchers
 import com.keithsmyth.androidshowcase.R
 import com.keithsmyth.androidshowcase.service.MockPokemonService
-import com.keithsmyth.androidshowcase.service.model.ApiResource
+import com.keithsmyth.androidshowcase.service.model.NamedApiResource
 import com.keithsmyth.androidshowcase.service.model.PokemonServiceModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -22,12 +22,12 @@ import org.mockito.kotlin.whenever
 class DetailDomainTest {
 
 
-    private val statHp = PokemonServiceModel.Stats(45, 0, ApiResource("hp", "stat/1/"))
-    private val statAttack = PokemonServiceModel.Stats(50, 0, ApiResource("attack", "stat/2/"))
-    private val statDefense = PokemonServiceModel.Stats(49, 0, ApiResource("defense", "stat/3/"))
-    private val statSpAttack = PokemonServiceModel.Stats(65, 0, ApiResource("sp-atk", "stat/4/"))
-    private val statSpDefense = PokemonServiceModel.Stats(66, 0, ApiResource("sp-def", "stat/5/"))
-    private val statSpeed = PokemonServiceModel.Stats(46, 0, ApiResource("speed", "stat/6/"))
+    private val statHp = PokemonServiceModel.Stats(45, 0, NamedApiResource("hp", "stat/1/"))
+    private val statAttack = PokemonServiceModel.Stats(50, 0, NamedApiResource("attack", "stat/2/"))
+    private val statDefense = PokemonServiceModel.Stats(49, 0, NamedApiResource("defense", "stat/3/"))
+    private val statSpAttack = PokemonServiceModel.Stats(65, 0, NamedApiResource("sp-atk", "stat/4/"))
+    private val statSpDefense = PokemonServiceModel.Stats(66, 0, NamedApiResource("sp-def", "stat/5/"))
+    private val statSpeed = PokemonServiceModel.Stats(46, 0, NamedApiResource("speed", "stat/6/"))
 
     private val expectedPrimaryType = ExpectedType(1, 12, "Grass")
     private val expectedSecondaryType = ExpectedType(2, 4, "Poison")
@@ -41,7 +41,7 @@ class DetailDomainTest {
     )
 
     private fun ExpectedType.asServiceModel() =
-        PokemonServiceModel.Types(slot, ApiResource(name.lowercase(), "type/$id/"))
+        PokemonServiceModel.Types(slot, NamedApiResource(name.lowercase(), "type/$id/"))
 
     private val mockServiceModel = PokemonServiceModel(
         abilities = emptyList(),
@@ -54,7 +54,7 @@ class DetailDomainTest {
         moves = emptyList(),
         name = "test name",
         order = 1,
-        species = ApiResource("species", "species/1"),
+        species = NamedApiResource("species", "species/1"),
         sprites = PokemonServiceModel.Sprites("back", "front", "shinyBack", "shinyFront"),
         stats = listOf(
             statHp,
