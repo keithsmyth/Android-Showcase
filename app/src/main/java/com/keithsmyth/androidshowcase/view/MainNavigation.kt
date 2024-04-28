@@ -4,7 +4,10 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.createGraph
+import androidx.navigation.fragment.FragmentNavigatorDestinationBuilder
 import androidx.navigation.fragment.fragment
+import com.keithsmyth.androidshowcase.ReleaseToggles
+import com.keithsmyth.androidshowcase.view.detail.DetailComposeFragment
 import com.keithsmyth.androidshowcase.view.detail.DetailFragment
 import com.keithsmyth.androidshowcase.view.search.SearchFragment
 import javax.inject.Inject
@@ -20,9 +23,19 @@ class MainNavigation @Inject constructor() {
 
             fragment<SearchFragment>(DEST_SEARCH)
 
-            fragment<DetailFragment>("$DEST_DETAIL/{$ARG_POKEMON_ID}") {
+            val detailRoute = "$DEST_DETAIL/{$ARG_POKEMON_ID}"
+            val detailArgBuilder: FragmentNavigatorDestinationBuilder.() -> Unit = {
                 argument(ARG_POKEMON_ID) {
                     type = NavType.IntType
+                }
+            }
+            if (ReleaseToggles.COMPOSE_DETAIL) {
+                fragment<DetailComposeFragment>(detailRoute) {
+                    detailArgBuilder()
+                }
+            } else {
+                fragment<DetailFragment>(detailRoute) {
+                    detailArgBuilder()
                 }
             }
 
