@@ -30,7 +30,7 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.state.collect { state ->
                     binding.progressBar.isVisible = state.isLoading
-                    resultsAdapter.submitList(state.results)
+                    resultsAdapter.submitList(state.resultBindingItems)
                 }
             }
         }

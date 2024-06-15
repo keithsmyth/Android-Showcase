@@ -9,6 +9,7 @@ import androidx.navigation.fragment.fragment
 import com.keithsmyth.androidshowcase.ReleaseToggles
 import com.keithsmyth.androidshowcase.view.detail.DetailComposeFragment
 import com.keithsmyth.androidshowcase.view.detail.DetailFragment
+import com.keithsmyth.androidshowcase.view.search.SearchComposeFragment
 import com.keithsmyth.androidshowcase.view.search.SearchFragment
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -21,7 +22,11 @@ class MainNavigation @Inject constructor() {
             startDestination = DEST_SEARCH
         ) {
 
-            fragment<SearchFragment>(DEST_SEARCH)
+            if (ReleaseToggles.COMPOSE_SEARCH) {
+                fragment<SearchComposeFragment>(DEST_SEARCH)
+            } else {
+                fragment<SearchFragment>(DEST_SEARCH)
+            }
 
             val detailRoute = "$DEST_DETAIL/{$ARG_POKEMON_ID}"
             val detailArgBuilder: FragmentNavigatorDestinationBuilder.() -> Unit = {

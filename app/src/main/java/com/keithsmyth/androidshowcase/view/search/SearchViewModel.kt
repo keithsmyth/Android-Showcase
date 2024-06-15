@@ -23,14 +23,16 @@ class SearchViewModel @Inject constructor(
     data class State(
         val isLoading: Boolean,
         val searchTerm: String,
-        val results: List<SearchResultBindingItem>,
+        val resultBindingItems: List<SearchResultBindingItem>,
+        val resultListItems: List<ListItemDomainModel>,
         val allItems: List<SearchResultBindingItem>,
     ) {
         companion object {
             fun default(): State = State(
                 isLoading = true,
                 searchTerm = "",
-                results = emptyList(),
+                resultBindingItems = emptyList(),
+                resultListItems = emptyList(),
                 allItems = emptyList(),
             )
         }
@@ -61,7 +63,8 @@ class SearchViewModel @Inject constructor(
     private fun SearchDomainModel.mapToState() = State(
         isLoading = this.isLoading,
         searchTerm = this.searchTerm,
-        results = this.results.mapToResultBindingItems(),
+        resultBindingItems = this.results.mapToResultBindingItems(),
+        resultListItems = this.results,
         allItems = this.allItems.mapToResultBindingItems(),
     )
 
