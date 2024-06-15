@@ -4,7 +4,9 @@ import com.keithsmyth.androidshowcase.Dispatchers
 import com.keithsmyth.androidshowcase.R
 import com.keithsmyth.androidshowcase.domain.model.PokemonDomainModel
 import com.keithsmyth.androidshowcase.service.MockPokemonService
+import com.keithsmyth.androidshowcase.service.model.EvolutionChainServiceModel
 import com.keithsmyth.androidshowcase.service.model.PokemonServiceModel
+import com.keithsmyth.androidshowcase.service.model.SpeciesServiceModel
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -16,26 +18,32 @@ class DetailDomain @Inject constructor(
 
     suspend fun detail(pokemonId: Int): PokemonDomainModel {
         return withContext(dispatchers.io()) {
-            val response: PokemonServiceModel = mockPokemonService.detail(pokemonId)
+            val pokemonResponse: PokemonServiceModel = mockPokemonService.detail(pokemonId)
 
-            val statBlock = statBlock(response.stats)
+            val speciesId = DomainFormatUtils.idFromApiResourceUrl(pokemonResponse.species.url)
+            val speciesResponse: SpeciesServiceModel = mockPokemonService.species(speciesId)
 
-            val primaryTypeBlock = typeBlock(SLOT_PRIMARY, response.types)
+            val evolutionId = DomainFormatUtils.idFromApiResourceUrl(speciesResponse.evolutionChain.url)
+            val evolutionChainResponse: EvolutionChainServiceModel = mockPokemonService.evolution(evolutionId)
+
+            val statBlock = statBlockFrom(pokemonResponse.stats)
+
+            val primaryTypeBlock = typeBlockFrom(SLOT_PRIMARY, pokemonResponse.types)
                 ?: throw IllegalStateException()
-            val secondaryTypeBlock = typeBlock(SLOT_SECONDARY, response.types)
+            val secondaryTypeBlock = typeBlockFrom(SLOT_SECONDARY, pokemonResponse.types)
 
             PokemonDomainModel(
-                id = response.id,
-                name = DomainFormatUtils.capitaliseName(response.name),
-                cryUrl = cryUrlFrom(response.cries),
-                height = formattedHeight(response.height),
-                weight = formattedWeight(response.weight),
-                speciesId = DomainFormatUtils.idFromApiResourceUrl(response.species.url),
-                speciesName = DomainFormatUtils.capitaliseName(response.species.name),
-                spriteFrontUrl = response.sprites.frontDefault,
-                spriteBackUrl = response.sprites.backDefault,
-                shinySpriteFrontUrl = response.sprites.frontShiny,
-                shinySpriteBackUrl = response.sprites.backShiny,
+                id = pokemonResponse.id,
+                name = DomainFormatUtils.capitaliseName(pokemonResponse.name),
+                cryUrl = cryUrlFrom(pokemonResponse.cries),
+                height = formattedHeight(pokemonResponse.height),
+                weight = formattedWeight(pokemonResponse.weight),
+                speciesId = speciesId,
+                speciesName = DomainFormatUtils.capitaliseName(pokemonResponse.species.name),
+                spriteFrontUrl = pokemonResponse.sprites.frontDefault,
+                spriteBackUrl = pokemonResponse.sprites.backDefault,
+                shinySpriteFrontUrl = pokemonResponse.sprites.frontShiny,
+                shinySpriteBackUrl = pokemonResponse.sprites.backShiny,
                 statBaseHp = statBlock.statBaseHp,
                 statBaseAttack = statBlock.statBaseAttack,
                 statBaseDefence = statBlock.statBaseDefence,
@@ -68,7 +76,7 @@ class DetailDomain @Inject constructor(
         return strings.get(R.string.weight_display_value, metreWeight)
     }
 
-    private fun statBlock(stats: List<PokemonServiceModel.Stats>): StatBlock {
+    private fun statBlockFrom(stats: List<PokemonServiceModel.Stats>): StatBlock {
         val idToBaseMap = mutableMapOf<Int, Int>()
 
         stats.forEach { s ->
@@ -95,7 +103,7 @@ class DetailDomain @Inject constructor(
         )
     }
 
-    private fun typeBlock(slot: Int, types: List<PokemonServiceModel.Types>): TypeBlock? {
+    private fun typeBlockFrom(slot: Int, types: List<PokemonServiceModel.Types>): TypeBlock? {
         return types.firstOrNull { t -> t.slot == slot }?.type?.let { t ->
             TypeBlock(
                 id = DomainFormatUtils.idFromApiResourceUrl(t.url),

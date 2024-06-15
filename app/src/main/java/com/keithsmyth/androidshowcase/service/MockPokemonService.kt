@@ -3,6 +3,7 @@ package com.keithsmyth.androidshowcase.service
 import android.content.Context
 import com.keithsmyth.androidshowcase.R
 import com.keithsmyth.androidshowcase.service.model.ApiResponse
+import com.keithsmyth.androidshowcase.service.model.EvolutionChainServiceModel
 import com.keithsmyth.androidshowcase.service.model.PokemonListServiceModel
 import com.keithsmyth.androidshowcase.service.model.PokemonServiceModel
 import com.keithsmyth.androidshowcase.service.model.SpeciesServiceModel
@@ -41,5 +42,13 @@ class MockPokemonService @Inject constructor(
         return appContext.resources.openRawResource(R.raw.species_bulbasaur).use { inputStream ->
             json.decodeFromStream<SpeciesServiceModel>(inputStream)
         }
+    }
+
+    suspend fun evolution(evolutionId: Int): EvolutionChainServiceModel {
+        delay(500)
+        return appContext.resources.openRawResource(R.raw.evolution_chain_bulbasaur)
+            .use { inputStream ->
+                json.decodeFromStream<EvolutionChainServiceModel>(inputStream)
+            }
     }
 }
