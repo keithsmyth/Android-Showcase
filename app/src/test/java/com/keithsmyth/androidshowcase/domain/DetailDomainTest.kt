@@ -3,9 +3,10 @@ package com.keithsmyth.androidshowcase.domain
 import com.keithsmyth.androidshowcase.Dispatchers
 import com.keithsmyth.androidshowcase.R
 import com.keithsmyth.androidshowcase.service.MockPokemonService
+import com.keithsmyth.androidshowcase.service.model.ApiResource
 import com.keithsmyth.androidshowcase.service.model.NamedApiResource
 import com.keithsmyth.androidshowcase.service.model.PokemonServiceModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
+import com.keithsmyth.androidshowcase.service.model.SpeciesServiceModel
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.runTest
@@ -18,10 +19,7 @@ import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class DetailDomainTest {
-
-
     private val statHp = PokemonServiceModel.Stats(45, 0, NamedApiResource("hp", "stat/1/"))
     private val statAttack = PokemonServiceModel.Stats(50, 0, NamedApiResource("attack", "stat/2/"))
     private val statDefense = PokemonServiceModel.Stats(49, 0, NamedApiResource("defense", "stat/3/"))
@@ -71,8 +69,22 @@ class DetailDomainTest {
         weight = 69,
     )
 
+    private val speciesServiceModel = SpeciesServiceModel(
+        id = 1,
+                name = "bulbasaur",
+                order = 1,
+                genderRate = 1,
+                captureRate = 45,
+                baseHappiness = 50,
+                hatchCounter = 20,
+                eggGroups = emptyList(),
+                evolutionChain = ApiResource("https://pokeapi.co/api/v2/evolution-chain/1/"),
+                flavorTextEntries = emptyList(),
+    )
+
     private val pokemonService = mock<MockPokemonService> {
         onBlocking { detail(1) } doReturn mockServiceModel
+        onBlocking { species(1) } doReturn speciesServiceModel
     }
 
     private val strings = mock<Strings> {
