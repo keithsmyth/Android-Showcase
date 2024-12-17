@@ -41,6 +41,8 @@ class SearchComposeFragment : Fragment(R.layout.fragment_search_compose) {
         val binding = FragmentSearchComposeBinding.bind(view)
         val viewModel: SearchViewModel by viewModels()
 
+        viewModel.ensureRefreshList()
+
         binding.searchComposeView.setContent {
             AndroidShowcaseTheme {
                 Surface(

@@ -1,21 +1,18 @@
 package com.keithsmyth.androidshowcase.domain
 
-import com.keithsmyth.androidshowcase.Dispatchers
+import com.keithsmyth.androidshowcase.TestDispatcherRule
 import com.keithsmyth.androidshowcase.domain.model.ListItemDomainModel
-import com.keithsmyth.androidshowcase.service.MockPokemonService
+import com.keithsmyth.androidshowcase.service.FakePokemonService
 import com.keithsmyth.androidshowcase.service.model.PokemonListServiceModel
-import com.keithsmyth.androidshowcase.service.model.ApiResponse
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.StandardTestDispatcher
-import kotlinx.coroutines.test.TestCoroutineScheduler
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
+import org.junit.Rule
 import org.junit.Test
-import org.mockito.kotlin.doReturn
-import org.mockito.kotlin.mock
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class ListDomainTest {
+
+    @get:Rule
+    val testDispatcherRule = TestDispatcherRule()
 
     private val serviceModels = listOf(
         PokemonListServiceModel(
@@ -47,16 +44,18 @@ class ListDomainTest {
         ),
     )
 
+    private val pokemonService = FakePokemonService()
+    private val dispatchers = testDispatcherRule.mockDispatchers()
+    private val subject = ListDomain(pokemonService, dispatchers)
+
     @Test
     fun `given trailing slash, when mapping domain list, then returns correct id`() =
         runTest {
             // given
-            val pokemonService = mockPokemonService(listOf(serviceModels.first()))
-            val dispatchers = dispatchers(testScheduler)
-            val listDomain = ListDomain(pokemonService, dispatchers)
+            stubPokemonService(listOf(serviceModels.first()))
 
             // when
-            val result = listDomain.list()
+            val result = subject.list()
 
             // then
             assertEquals(domainModels.first().id, result.first().id)
@@ -66,16 +65,12 @@ class ListDomainTest {
     fun `given trailing id, when mapping domain list, then returns correct id`() =
         runTest {
             // given
-            val pokemonService = mockPokemonService(
-                listOf(
-                    serviceModels.first().copy(url = "https://pokeapi.co/api/v2/pokemon/1"),
-                )
+            stubPokemonService(
+                listOf(serviceModels.first().copy(url = "https://pokeapi.co/api/v2/pokemon/1"))
             )
-            val dispatchers = dispatchers(testScheduler)
-            val listDomain = ListDomain(pokemonService, dispatchers)
 
             // when
-            val result = listDomain.list()
+            val result = subject.list()
 
             // then
             assertEquals(domainModels.first().id, result.first().id)
@@ -85,12 +80,10 @@ class ListDomainTest {
     fun `given lowercase name, when mapping domain list, then returns capitalized name`() =
         runTest {
             // given
-            val pokemonService = mockPokemonService(listOf(serviceModels.first()))
-            val dispatchers = dispatchers(testScheduler)
-            val listDomain = ListDomain(pokemonService, dispatchers)
+            stubPokemonService(listOf(serviceModels.first()))
 
             // when
-            val result = listDomain.list()
+            val result = subject.list()
 
             // then
             assertEquals(domainModels.first().name, result.first().name)
@@ -100,31 +93,19 @@ class ListDomainTest {
     fun `given multiple items, when mapping domain list, then returns correct ordering`() =
         runTest {
             // given
-            val pokemonService = mockPokemonService(serviceModels)
-            val dispatchers = dispatchers(testScheduler)
-            val listDomain = ListDomain(pokemonService, dispatchers)
+            stubPokemonService(serviceModels)
 
             // when
-            val result = listDomain.list()
+            val result = subject.list()
 
             // then
             assertEquals(domainModels, result)
         }
 
-    private fun mockPokemonService(results: List<PokemonListServiceModel>): MockPokemonService {
-        return mock<MockPokemonService> {
-            onBlocking { list() } doReturn ApiResponse(
-                count = results.size,
-                next = null,
-                previous = null,
-                results = results,
-            )
-        }
-    }
-
-    private fun dispatchers(testScheduler: TestCoroutineScheduler): Dispatchers {
-        return mock<Dispatchers> {
-            on { io() } doReturn StandardTestDispatcher(testScheduler)
-        }
+    private fun stubPokemonService(results: List<PokemonListServiceModel>) {
+        pokemonService.stubList = pokemonService.stubList.copy(
+            count = results.size,
+            results = results,
+        )
     }
 }

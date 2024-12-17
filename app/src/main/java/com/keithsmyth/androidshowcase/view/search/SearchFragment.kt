@@ -24,6 +24,8 @@ class SearchFragment : Fragment(R.layout.fragment_search) {
         val binding = FragmentSearchBinding.bind(view)
         val viewModel: SearchViewModel by viewModels()
 
+        viewModel.ensureRefreshList()
+
         val resultsAdapter = BindingAdapter()
 
         viewLifecycleOwner.lifecycleScope.launch {

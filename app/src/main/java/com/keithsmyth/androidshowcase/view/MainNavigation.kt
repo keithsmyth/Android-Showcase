@@ -34,6 +34,7 @@ class MainNavigation @Inject constructor() {
                     type = NavType.IntType
                 }
             }
+
             if (ReleaseToggles.COMPOSE_DETAIL) {
                 fragment<DetailComposeFragment>(detailRoute) {
                     detailArgBuilder()
@@ -43,7 +44,6 @@ class MainNavigation @Inject constructor() {
                     detailArgBuilder()
                 }
             }
-
         }
     }
 

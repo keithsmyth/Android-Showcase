@@ -20,31 +20,31 @@ import javax.inject.Singleton
 class MockPokemonService @Inject constructor(
     @ApplicationContext private val appContext: Context,
     private val json: Json,
-) {
+) : PokemonService {
     // Moshi implementation: appContext.resources.openRawResource(R.raw.pokemon_list).source().buffer().use { moshiAdapter.fromJson(it) }
 
-    suspend fun list(): ApiResponse<PokemonListServiceModel> {
+    override suspend fun list(): ApiResponse<PokemonListServiceModel> {
         delay(500)
         return appContext.resources.openRawResource(R.raw.pokemon_list).use { inputStream ->
             json.decodeFromStream<ApiResponse<PokemonListServiceModel>>(inputStream)
         }
     }
 
-    suspend fun detail(id: Int): PokemonServiceModel {
+    override suspend fun detail(id: Int): PokemonServiceModel {
         delay(500)
         return appContext.resources.openRawResource(R.raw.pokemon_bulbasaur).use { inputStream ->
             json.decodeFromStream<PokemonServiceModel>(inputStream)
         }
     }
 
-    suspend fun species(speciesId: Int): SpeciesServiceModel {
+    override suspend fun species(speciesId: Int): SpeciesServiceModel {
         delay(500)
         return appContext.resources.openRawResource(R.raw.species_bulbasaur).use { inputStream ->
             json.decodeFromStream<SpeciesServiceModel>(inputStream)
         }
     }
 
-    suspend fun evolution(evolutionId: Int): EvolutionChainServiceModel {
+    override suspend fun evolution(evolutionId: Int): EvolutionChainServiceModel {
         delay(500)
         return appContext.resources.openRawResource(R.raw.evolution_chain_bulbasaur)
             .use { inputStream ->

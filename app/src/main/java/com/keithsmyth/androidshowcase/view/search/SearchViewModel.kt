@@ -2,6 +2,7 @@ package com.keithsmyth.androidshowcase.view.search
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.keithsmyth.androidshowcase.common.IdempotentGuard
 import com.keithsmyth.androidshowcase.domain.SearchDomain
 import com.keithsmyth.androidshowcase.domain.model.ListItemDomainModel
 import com.keithsmyth.androidshowcase.domain.model.SearchDomainModel
@@ -19,6 +20,10 @@ class SearchViewModel @Inject constructor(
     private val mainNavigation: MainNavigation,
     private val searchDomain: SearchDomain,
 ) : ViewModel() {
+
+    private val refreshAction = IdempotentGuard {
+        viewModelScope.launch { searchDomain.refresh() }
+    }
 
     data class State(
         val isLoading: Boolean,
@@ -46,18 +51,12 @@ class SearchViewModel @Inject constructor(
             initialValue = State.default(),
         )
 
-    init {
-        refreshList()
+    fun ensureRefreshList() {
+        refreshAction.run()
     }
 
     fun updateSearchTerm(newSearchTerm: String) {
         searchDomain.updateSearchTerm(newSearchTerm)
-    }
-
-    private fun refreshList() {
-        viewModelScope.launch {
-            searchDomain.refresh()
-        }
     }
 
     private fun SearchDomainModel.mapToState() = State(

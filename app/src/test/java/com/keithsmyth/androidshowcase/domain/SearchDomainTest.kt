@@ -1,7 +1,6 @@
 package com.keithsmyth.androidshowcase.domain
 
 import com.keithsmyth.androidshowcase.domain.model.ListItemDomainModel
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -10,7 +9,6 @@ import org.junit.Test
 import org.mockito.kotlin.doReturn
 import org.mockito.kotlin.mock
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class SearchDomainTest {
 
     private val listModels = listOf(
