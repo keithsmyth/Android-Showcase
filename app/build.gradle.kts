@@ -8,12 +8,12 @@ plugins {
 
 android {
     namespace = "com.keithsmyth.androidshowcase"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.keithsmyth.androidshowcase"
         minSdk = 28
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
